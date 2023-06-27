@@ -1,0 +1,14 @@
+---
+- name: sync github
+  hosts: localhost
+  tasks:
+    - name: pwd de la création
+      shell: pwd
+      register: pwd_resultat
+
+    - name: Mettre à jour le référentiel Git cloné
+      git:
+        repo: https://github.com/tesera123/ansible.git
+        dest: '{{ pwd_resultat.stdout }}'
+        update: yes
+        force: yes
