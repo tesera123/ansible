@@ -1,0 +1,7 @@
+---
+- name: sync github
+  hosts: localhost
+  tasks:
+    - name: test du role bonjour
+      include_role:
+        name: bonjour
