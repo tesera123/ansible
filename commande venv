@@ -1,0 +1,9 @@
+activer un fichier venv:
+python3 -m venv <fichier a creer>
+ce mettre dedans ensuite:
+source /bin/activate
+sortir du venv:
+deactivate
+
+installer ansible:
+pip install ansible
