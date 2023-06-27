@@ -1,0 +1,24 @@
+---
+- name: creation des fichiers ansible
+  hosts: localhost
+  tasks:
+    - name: pwd de la création
+      shell: pwd
+      register: pwd_resultat
+
+    - name: affichange
+      debug:
+        var: pwd_resultat.stdout
+
+    - name: creation des fichiers
+      file:
+        path: "{{item}}"
+        state: directory
+      with_items:
+        - "{{pwd_resultat.stdout}}/group_vars"
+        - "{{pwd_resultat.stdout}}/inventories"
+        - "{{pwd_resultat.stdout}}/library"
+        - "{{pwd_resultat.stdout}}/roles"
+        - "{{pwd_resultat.stdout}}/roles/exemple"
+        - "{{pwd_resultat.stdout}}/roles/exemple/tasks"
+        - "{{pwd_resultat.stdout}}/templates"

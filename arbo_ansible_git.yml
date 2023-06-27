@@ -1,0 +1,66 @@
+---
+- name: sync github
+  hosts: localhost
+  tasks:
+    - name: pwd de la création
+      shell: pwd
+      register: pwd_resultat
+
+    - set_fact:
+        var_tempo: '{{pwd_resultat.stdout}}/TEMPO'
+        var_ansible_creation: '{{pwd_resultat.stdout}}/ANSIBLE'
+    
+    - set_fact:
+        var_chemin_ansible:
+          - "{{var_ansible_creation}}/group_vars"
+          - "{{var_ansible_creation}}/inventories"
+          - "{{var_ansible_creation}}/library"
+          - "{{var_ansible_creation}}/roles"
+          - "{{var_ansible_creation}}/roles/exemple"
+          - "{{var_ansible_creation}}/roles/exemple/tasks"
+          - "{{var_ansible_creation}}/templates"       
+
+    - name: Clone the GitHub repository
+      git:
+        repo: https://github.com/tesera123/ansible.git
+        dest: '{{var_tempo}}'
+
+    - name: creation des fichiers
+      file:
+        path: "{{item}}"
+        state: directory
+      loop: '{{var_chemin_ansible}}'     
+
+    - name: creation des fichiers readme
+      file:
+        path: "{{item}}/readme.cfg"
+        state: file
+        recurse: yes
+      loop: '{{var_chemin_ansible}}'
+
+    - name: Clone Git repository
+      git:
+        repo: https://github.com/tesera123/ansible.git
+        dest: '{{var_tempo}}'
+        version: master
+
+    - name: Copier les fichiers vers le dépôt Git
+      copy:
+        src: '{{var_ansible_creation}}'
+        dest: '{{var_tempo}}'
+        remote_src: yes
+
+    - name: Ajouter les fichiers au suivi Git
+      command: git add .
+      args:
+        chdir: '{{var_tempo}}'
+
+    - name: Commit des modifications
+      command: git commit -m "Ajout de fichiers via Ansible"
+      args:
+        chdir: '{{var_tempo}}'
+
+    - name: Pousser les modifications vers le dépôt distant
+      command: git push origin master
+      args:
+        chdir: '{{var_tempo}}'
