@@ -7,3 +7,34 @@ deactivate
 
 installer ansible:
 pip install ansible
+
+***-------------------------------***
+***--------- partie docker -------***
+***-------------------------------***
+docker images --> voir les images téléchargés
+docker ps ------> afficher les container installé 
+docker pull ----> permet dee télécharger 
+docker -it (images) -> rend le contenu "interactif" en lancant l'images
+docker stop (id de l'images > -> stop le contenair en cours
+/!\ docker system prune ---> nettoie tout ce qui n'est pas utilisé
+utilisé -p pour mettre des ports (8080:80) le premier indique le port source, le deuxieme la destination
+
+faire demarrer en arriere plan:
+docker run -it -d (images)
+
+
+***-------------------------------------------------------***
+***--------- bouger docker sur une autre partition -------***
+***-------------------------------------------------------***
+
+wsl -l
+wsl --shutdown
+wsl -l -v
+wsl --export docker-desktop-data e:\docker\dockerdesktop.tar
+wsl --unregister docker-desktop-data
+wsl --import docker-desktop-data e:\docker e:\docker\dockerdesktop.tar
+wsl -l -v
+
+
+
+
